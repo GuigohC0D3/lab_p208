@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.pyc
+.env
+dpo_output/
+*.safetensors
+*.bin
+.ipynb_checkpoints/
