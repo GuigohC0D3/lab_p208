@@ -17,9 +17,12 @@ Implementar o pipeline de alinhamento de um LLM utilizando **Direct Preference O
 ```
 lab_p208/
 ├── data/
-│   └── hhh_dataset.jsonl   # 32 pares de preferência (prompt / chosen / rejected)
-├── dpo_train.ipynb          # Notebook principal — executar no Google Colab
+│   └── hhh_dataset.jsonl   # 35 pares de preferência (prompt / chosen / rejected)
+├── train.py                 # Script principal — execução via terminal
+├── dpo_train.ipynb          # Versão notebook (referência)
+├── validate_dataset.py      # Validação do dataset
 ├── requirements.txt         # Dependências Python
+├── .env.example             # Variáveis de ambiente necessárias
 └── README.md                # Este arquivo
 ```
 
@@ -27,11 +30,38 @@ lab_p208/
 
 ## Como Executar
 
-1. Abra o `dpo_train.ipynb` no [Google Colab](https://colab.research.google.com/)
-2. Faça upload do arquivo `data/hhh_dataset.jsonl` para o ambiente Colab (ou monte o Google Drive)
-3. Insira seu token do Hugging Face na Célula 2 (necessário para modelos Llama-2 gated)
-4. Execute todas as células em ordem (`Runtime → Run all`)
-5. Após o treinamento, a Célula 8 exibe a validação de alinhamento via log-probabilidades
+### Pré-requisitos
+
+- Python 3.10+
+- GPU NVIDIA com pelo menos 8GB de VRAM (RTX 3060 ou superior)
+- CUDA 12.1 instalado
+- Token do Hugging Face com acesso ao modelo Llama-2 ([aceitar termos aqui](https://huggingface.co/meta-llama/Llama-2-7b-hf))
+
+### Instalação
+
+```bash
+python -m venv venv
+source venv/Scripts/activate   # Windows
+# ou: source venv/bin/activate  # Linux/Mac
+
+pip install torch==2.5.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+pip install -r requirements.txt
+```
+
+### Configuração
+
+```bash
+cp .env.example .env
+# Edite .env e insira seu HF_TOKEN
+```
+
+### Execução
+
+```bash
+python train.py
+```
+
+O script executa o pipeline completo: carregamento do dataset → modelo ator (GPU 4-bit) + referência (CPU) → treinamento DPO → validação por log-probabilidades.
 
 **Requisitos de hardware:** GPU com pelo menos 15GB de VRAM (recomendado: Colab T4/A100)
 
