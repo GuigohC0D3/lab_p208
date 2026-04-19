@@ -19,7 +19,6 @@ lab_p208/
 ├── data/
 │   └── hhh_dataset.jsonl   # 35 pares de preferência (prompt / chosen / rejected)
 ├── train.py                 # Script principal — execução via terminal
-├── dpo_train.ipynb          # Versão notebook (referência)
 ├── validate_dataset.py      # Validação do dataset
 ├── requirements.txt         # Dependências Python
 ├── .env.example             # Variáveis de ambiente necessárias
